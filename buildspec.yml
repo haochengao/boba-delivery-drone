@@ -5,7 +5,7 @@ env:
     AWS_REGION: "us-east-1"
     REACT_APP_API_SERVICE_URL: "bdd-alb-639326964.us-east-1.elb.amazonaws.com"
     REACT_APP_SOCKET_SERVICE_URL: "bdd-alb-639326964.us-east-1.elb.amazonaws.com:5008"
-    GOOGLE_MAPS_API_KEY: ""
+    REACT_APP_GOOGLE_MAPS_API_KEY: ""
 
 phases:
   install:
@@ -45,7 +45,7 @@ phases:
           --build-arg NODE_ENV=production \
           --build-arg REACT_APP_API_SERVICE_URL=$REACT_APP_API_SERVICE_URL \
           --build-arg REACT_APP_SOCKET_SERVICE_URL=$REACT_APP_SOCKET_SERVICE_URL \
-          --build-arg GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY \
+          --build-arg REACT_APP_GOOGLE_MAPS_API_KEY=$REACT_APP_GOOGLE_MAPS_API_KEY \
           ./services/client
       - >
         docker build \
