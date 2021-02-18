@@ -14,18 +14,15 @@ class Account extends Component {
     };
   }
   componentDidMount() {
+    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
     this.getUserStatus();
     this.getUserDeliveries();
-    const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_SERVICE_URL}`);
-    console.log('got here');
-    socket.on("message", data => {
-        console.log('location received')
-        .catch((err) => {
-          console.log(err);
-          console.log('test1');
-        });
-    })
-    socket.emit("message", {message: 'test'});
+    // const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_SERVICE_URL}`);
+    // socket
+    // .on("message", data => {
+    //     console.log('message received')
+    // });
+    // socket.emit("message", {message: 'message'});
   }
   // getUserDeliveries = () => {
   //   this.props.isAuthenticated();

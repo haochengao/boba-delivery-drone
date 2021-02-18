@@ -55,7 +55,7 @@ class App extends Component {
         this.createMessage("success", "User added.");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.handleCloseModal();
         this.createMessage("danger", "That user already exists.");
       });
@@ -78,7 +78,7 @@ class App extends Component {
         this.setState({ users: res.data });
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -97,7 +97,7 @@ class App extends Component {
         this.createMessage("success", "You have logged in successfully.");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.createMessage("danger", "Incorrect email and/or password.");
       });
   };
@@ -111,11 +111,11 @@ class App extends Component {
     axios
       .post(url, data)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         this.createMessage("success", "You have registered successfully.");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.createMessage("danger", "That user already exists.");
       });
   };
@@ -148,7 +148,7 @@ class App extends Component {
         this.createMessage("success", "User removed.");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         this.createMessage("danger", "Something went wrong.");
       });
   };
