@@ -5,7 +5,6 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
 
-CONST 
 const styles = {
     secondaryContainer: {
       marginTop: '20px',

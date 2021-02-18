@@ -12,8 +12,6 @@ services:
       - FLASK_ENV=production
       - APP_SETTINGS=src.config.ProductionConfig
       - SECRET_KEY=my_precious
-    depends_on:
-      - api-db
 
   api:
     build:
