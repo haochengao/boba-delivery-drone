@@ -16,13 +16,14 @@ const styles = {
   }
 
 const OrderLocation = (props) => {
+
   return (
     <div>
         <h1 className="title is-1">Select Delivery Location</h1>
         <h3 className="subtitle is-5">Please select an open area, delivery only precise within ~10 feet.
         <br />Only available in certain region of Crozet, VA.
         </h3>
-        <LoadScript googleMapsApiKey={`${process.env.GOOGLE_MAPS_API_KEY}`}>
+        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
           <div>
             <GoogleMap
               mapContainerStyle={{height: '75vh', width: '100%'}}
