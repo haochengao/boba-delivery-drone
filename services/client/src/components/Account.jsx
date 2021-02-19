@@ -4,6 +4,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 
+
 class Account extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,6 @@ class Account extends Component {
     };
   }
   componentDidMount() {
-    console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
     this.getUserStatus();
     this.getUserDeliveries();
     // const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_SERVICE_URL}`);

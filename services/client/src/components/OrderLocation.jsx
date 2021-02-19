@@ -5,6 +5,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
 
+const google_maps_api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
 const styles = {
     secondaryContainer: {
       marginTop: '20px',
@@ -23,7 +25,7 @@ const OrderLocation = (props) => {
         <h3 className="subtitle is-5">Please select an open area, delivery only precise within ~10 feet.
         <br />Only available in certain region of Crozet, VA.
         </h3>
-        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
+        <LoadScript googleMapsApiKey={google_maps_api_key}>
           <div>
             <GoogleMap
               mapContainerStyle={{height: '75vh', width: '100%'}}
