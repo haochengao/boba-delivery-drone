@@ -13,9 +13,6 @@ phases:
       docker: 18
   pre_build:
     commands:
-      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/users:prod || true
-      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:builder || true
-      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:prod || true
       - echo logging in to ecr...
       - >
         aws ecr get-login-password --region $AWS_REGION \
@@ -25,26 +22,17 @@ phases:
       - echo building images...
       - >
         docker build \
-          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/users:prod \
           -f services/users/Dockerfile.prod \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/users:prod \
           ./services/users
       - >
         docker build \
-          --target builder \
-          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:builder \
           -f services/client/Dockerfile.prod \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:builder \
+          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:prod \
           --build-arg NODE_ENV=production \
           --build-arg REACT_APP_API_SERVICE_URL=$REACT_APP_API_SERVICE_URL \
           --build-arg REACT_APP_SOCKET_SERVICE_URL=$REACT_APP_SOCKET_SERVICE_URL \
           --build-arg REACT_APP_GOOGLE_MAPS_API_KEY=$REACT_APP_GOOGLE_MAPS_API_KEY \
-          ./services/client
-      - >
-        docker build \
-          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:prod \
-          -f services/client/Dockerfile.prod \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:prod \
           ./services/client
 
   post_build:
