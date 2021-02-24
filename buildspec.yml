@@ -14,7 +14,6 @@ phases:
   pre_build:
     commands:
       - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/users:prod || true
-      - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/socket:prod || true
       - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:builder || true
       - docker pull $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:prod || true
       - echo logging in to ecr...
@@ -30,12 +29,6 @@ phases:
           -f services/users/Dockerfile.prod \
           -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/users:prod \
           ./services/users
-      - >
-        docker build \
-          --cache-from $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/socket:prod \
-          -f services/users/Dockerfile.prod \
-          -t $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/socket:prod \
-          ./services/socket
       - >
         docker build \
           --target builder \
@@ -57,5 +50,4 @@ phases:
   post_build:
     commands:
     - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/users:prod
-    - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/socket:prod
     - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/client:prod

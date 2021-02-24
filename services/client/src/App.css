@@ -1,0 +1,9 @@
+a {
+    color: #FFF;
+  }
+a.footera {
+  color:  #0000EE;
+}
+a:hover {
+    color: rgb(100, 100, 156);
+}

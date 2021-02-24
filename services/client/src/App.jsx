@@ -12,6 +12,8 @@ import Message from "./components/Message";
 import AddUser from "./components/AddUser";
 import Order from "./components/Order";
 import Main from "./components/Main";
+import Boba from "./components/images/boba.jpg";
+import "./App.css";
 
 const modalStyles = {
   content: {
@@ -25,6 +27,7 @@ const modalStyles = {
 };
 
 Modal.setAppElement(document.getElementById("root"));
+
 
 class App extends Component {
   constructor() {
@@ -175,90 +178,104 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: "#c2a78c"}}>
         <NavBar
-          title={this.state.title}
+          // title={this.state.title}
           logoutUser={this.logoutUser}
           isAuthenticated={this.isAuthenticated}
         />
-        <section className="section">
-          <div className="container">
-            {this.state.messageType && this.state.messageText && (
+        <div className="container">
+          {this.state.messageType && this.state.messageText && (
               <Message
                 messageType={this.state.messageType}
                 messageText={this.state.messageText}
                 removeMessage={this.removeMessage}
               />
-            )}
-            <div className="columns">
-              <div className="column is-10 is-offset-1 has-text-centered">
-                <br />
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    render={() => (
-                      <Main
-                        accessToken={this.state.accessToken}
-                        isAuthenticated={this.isAuthenticated}
-                      />
-                    )}
-                  />
-                  <Route exact path="/about" component={About} />
-                  <Route
-                    exact
-                    path="/register"
-                    render={() => (
-                      <RegisterForm
-                        // eslint-disable-next-line react/jsx-handler-names
-                        handleRegisterFormSubmit={this.handleRegisterFormSubmit}
-                        isAuthenticated={this.isAuthenticated}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/login"
-                    render={() => (
-                      <LoginForm
-                        // eslint-disable-next-line react/jsx-handler-names
-                        handleLoginFormSubmit={this.handleLoginFormSubmit}
-                        isAuthenticated={this.isAuthenticated}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/account"
-                    render={() => (
-                      <Account
-                        accessToken={this.state.accessToken}
-                        isAuthenticated={this.isAuthenticated}
-                        users={this.state.users}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/order"
-                    render={() => (
-                      <Order
-                        accessToken={this.state.accessToken}
-                        isAuthenticated={this.isAuthenticated}
-                        user_id={this.state.user_id}
-                        createMessage={this.createMessage}
-                      />
-                    )}
-                  />
-                </Switch>
-              </div>
-            </div>
-            <footer className="footer has-text-centered">
-                By Haochen Gao. Boba and delivery provided free of charge, on condition that the service is operated on the creator's whim.
-            </footer>
-          </div>
+          )}
+        </div>
+        <section className="hero is-fullheight-with-navbar" style={{margin:0, height: 100, padding:0, backgroundImage: `url(${Boba})`, backgroundPosition: 'right', backgroundRepeat: 'no-repeat',}}>
+        <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <div className="hero-body">
+                    <Main
+                      accessToken={this.state.accessToken}
+                      isAuthenticated={this.isAuthenticated}
+                    />
+                  </div>
+                )}
+              />
+              <Route 
+                exact 
+                path="/about" 
+                render={() => (
+                  <div className='hero-body'>
+                    <About />
+                  </div>
+                )}
+              />
+              <Route
+                exact
+                path="/register"
+                render={() => (
+                  <div className='hero-body'>
+                    <RegisterForm
+                      // eslint-disable-next-line react/jsx-handler-names
+                      handleRegisterFormSubmit={this.handleRegisterFormSubmit}
+                      isAuthenticated={this.isAuthenticated}
+                    />
+                  </div>
+                )}
+              />
+              <Route
+                exact
+                path="/login"
+                render={() => (
+                  <div className="hero-body">
+                    <LoginForm
+                      // eslint-disable-next-line react/jsx-handler-names
+                      handleLoginFormSubmit={this.handleLoginFormSubmit}
+                      isAuthenticated={this.isAuthenticated}
+                    />
+                  </div>
+                )}
+              />
+              <Route
+                exact
+                path="/account"
+                render={() => (
+                  <div className='hero-title'>
+                    <Account
+                      accessToken={this.state.accessToken}
+                      isAuthenticated={this.isAuthenticated}
+                      users={this.state.users}
+                    />
+                  </div>
+                )}
+              />
+              <Route
+                exact
+                path="/order"
+                render={() => (
+                  <div clasName="hero-title">
+                    <Order
+                      accessToken={this.state.accessToken}
+                      isAuthenticated={this.isAuthenticated}
+                      user_id={this.state.user_id}
+                      createMessage={this.createMessage}
+                    />
+                  </div>
+                )}
+              />
+        </Switch>
         </section>
-
+        <footer className="footer has-text-centered">
+                By <a className='footera' href="https://www.haochengao.com">Haochen Gao</a>. Boba and delivery both provided free of charge, on condition that the service is only operated on the creator's whim.
+                <br />
+                <a className='footera' href="https://github.com/haochengao/boba-delivery-drone">Source Code</a>
+        </footer>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import "./NavBar.css";
+import Image from './images/main.png';
 
 const titleStyle = {
   fontWeight: "bold",
@@ -52,14 +53,14 @@ const NavBar = (props) => {
   }
   return (
     <nav
-      className="navbar is-dark"
+      className="navbar is-light"
       role="navigation"
       aria-label="main navigation"
     >
       <section className="container">
         <div className="navbar-brand">
           <Link to="/" className="navbar-item nav-title" style={titleStyle}>
-            {props.title}
+            <img src={Image} />
           </Link>
           <span
             className="nav-toggle navbar-burger"
@@ -82,7 +83,7 @@ const NavBar = (props) => {
 };
 
 NavBar.propTypes = {
-  title: PropTypes.string.isRequired,
+  // title: PropTypes.string.isRequired,
   logoutUser: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.func.isRequired,
 };

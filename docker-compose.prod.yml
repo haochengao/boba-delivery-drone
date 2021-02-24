@@ -2,17 +2,6 @@ version: '3.8'
 
 services:
 
-  socket:
-    build:
-      context: ./services/socket
-      dockerfile: Dockerfile.prod
-    ports:
-      - 5008:5000
-    environment:
-      - FLASK_ENV=production
-      - APP_SETTINGS=src.config.ProductionConfig
-      - SECRET_KEY=my_precious
-
   api:
     build:
       context: ./services/users

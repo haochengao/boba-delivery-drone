@@ -1,0 +1,13 @@
+a {
+    color: #0000EE;
+}
+
+.footer {
+    padding-top: 5%;
+    padding-bottom: 5%;
+
+  }
+
+a:hover {
+    text-decoration: underline;
+}

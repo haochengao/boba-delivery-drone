@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import socketIOClient from "socket.io-client";
-
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
+const google_maps_api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 class Account extends Component {
   constructor(props) {
@@ -17,34 +17,7 @@ class Account extends Component {
   componentDidMount() {
     this.getUserStatus();
     this.getUserDeliveries();
-    // const socket = socketIOClient(`${process.env.REACT_APP_SOCKET_SERVICE_URL}`);
-    // socket
-    // .on("message", data => {
-    //     console.log('message received')
-    // });
-    // socket.emit("message", {message: 'message'});
   }
-  // getUserDeliveries = () => {
-  //   this.props.isAuthenticated();
-  //   const options = {
-  //     url: `${process.env.REACT_APP_API_SERVICE_URL}/deliveries/user`,
-  //     method: "get",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${this.props.accessToken}`,
-  //     },
-  //   };
-  //   return axios(options)
-  //     .then((res) => {
-  //       console.log(res.data)
-  //       this.setState({
-  //         deliveries: res.data
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
   getUserDeliveries = () => {
     this.props.isAuthenticated();
     const token = window.localStorage.getItem("refreshToken");
@@ -90,6 +63,51 @@ class Account extends Component {
     if (!this.props.isAuthenticated()) {
       return <Redirect to="/login" />;
     }
+    return (
+      <div className='columns is-vcentered'>
+        <div className='column is-one-fifth' style={{paddingLeft:40}}>
+          <h3 className='title is-3'>
+            Your Orders
+          </h3>
+          <hr />
+          <h5 className='subtitle is-6'>
+            When order status is "In Progress", you will be able to view your order's current location.
+          </h5>
+          <div style={{height:'50vh', width:'40vh', overflowY:'scroll', overflowX:'auto'}}>
+            <table className="table is-hoverable is-narrow">
+              <thead>
+                <tr>
+                  <th>Estimated Delivery Date</th>
+                  <th>Order Status</th>
+                  {this.props.isAuthenticated() && <th />}
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.deliveries.map((delivery) => {
+                  return (
+                    <tr key={delivery.id}>
+                      <td>{new Date(delivery.end_date_time).toLocaleDateString("en-US") + ", " + new Date(delivery.end_date_time).toLocaleTimeString("en-US")}</td>
+                      <td>{delivery.status == 0 ? "Planned" : (delivery.status == 1 ? "In Progress" : "Finished")}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className='column is-offset-1' style={{paddingLeft:60, margin:0}}>
+          <LoadScript googleMapsApiKey={google_maps_api_key}>
+            <div>
+              <GoogleMap
+                mapContainerStyle={{height: '92vh', width: '100%'}}
+                center={{lat: 38.0672371465638, lng: -78.7114382450141}}
+                zoom={15}
+              />
+            </div>
+          </LoadScript>
+        </div>
+      </div>
+    );
     return (
       <div>
         <ul>

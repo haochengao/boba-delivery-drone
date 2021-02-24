@@ -2,19 +2,6 @@ version: '3.8'
 
 services:
 
-  socket:
-    build:
-      context: ./services/socket
-      dockerfile: Dockerfile
-    entrypoint: ['/usr/src/app/entrypoint.sh']
-    volumes:
-      - './services/socket:/usr/src/app'
-    ports:
-      - 5008:5000
-    environment:
-      - FLASK_ENV=development
-      - APP_SETTINGS=src.config.DevelopmentConfig
-
   api:
     build:
       context: ./services/users

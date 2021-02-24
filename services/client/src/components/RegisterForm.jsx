@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 import "./form.css";
 
@@ -14,7 +14,6 @@ const RegisterForm = (props) => {
     <div>
       <h1 className="title is-1">Register</h1>
       <hr />
-      <br />
       <Formik
         initialValues={{
           username: "",
@@ -123,7 +122,7 @@ const RegisterForm = (props) => {
               </div>
               <input
                 type="submit"
-                className="button is-primary"
+                className="button is-large"
                 value="Submit"
                 disabled={isSubmitting}
               />
@@ -131,6 +130,10 @@ const RegisterForm = (props) => {
           );
         }}
       </Formik>
+      <hr />
+      <Link to="/login">
+        Have An Account? Sign In Here.
+      </Link>
     </div>
   );
 };

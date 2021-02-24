@@ -2,7 +2,20 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import socketIOClient from "socket.io-client";
+import Image from './images/main.png';
 
+import './Main.css';
+
+const styles = {
+  bgimage: {
+    backgroundImage: `url(${Image})`,
+    alignSelf: 'stretch',
+    backgroundSize: 300,
+    height: 500,
+    width: 500
+  }
+}
 
 class Main extends Component {
     constructor(props) {
@@ -38,31 +51,36 @@ class Main extends Component {
     render() {
       if (!this.props.isAuthenticated()) {
         return (
-            <div>
-                <h1 className="title is-1">Automated Boba Delivery Via Drone</h1>
-                <hr />
-                <br />
-                <div>
-                    <Link to="/register" className="button">
-                    Register
+            <div className='columns is-vcentered'>
+              <div className='column is-3'>
+                <section className="hero is-halfheight">
+                  <h1 className="title is-1">
+                    Get Boba Delivered By Drone
+                    <br />
+                    <br />
+                    <Link to="/login" className="button is-large">
+                      Get Started
                     </Link>
-                    <Link to="/login" className="button">
-                    Log In
-                    </Link>
-                </div>
+                  </h1>
+                </section>
+              </div>
             </div>
         );
       }
       return (
-        <div>
-            <h1 className="title is-1">Automated Coffee Delivery Via Drone</h1>
-            <hr />
-            <br />
-            <div>
-                <Link to="/order" className="button">
-                    Order Now
+        <div className='columns is-vcentered'>
+          <div className='column is-5'>
+            <section className="hero is-halfheight">
+              <h1 className="title is-1">
+                Get Boba Delivered By Drone
+                <br />
+                <br />
+                <Link to="/order" className="button is-large">
+                  Order Now
                 </Link>
-            </div>
+              </h1>
+            </section>
+          </div>
         </div>
       );
     }

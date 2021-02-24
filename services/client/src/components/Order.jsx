@@ -2,10 +2,11 @@ import React, { Component, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
-import OrderLocation from "./OrderLocation";
-import OrderTime from "./OrderTime";
-import OrderSubmit from "./OrderSubmit";
-import { date } from "yup";
+import DateTimePicker from 'react-datetime-picker'
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+
+const google_maps_api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
 
 
 class Order extends Component {
@@ -21,7 +22,7 @@ class Order extends Component {
         submitted: false,
       };
     }
-    onOrderSubmit = () => {
+    handleOrderSubmit = () => {
       this.props.isAuthenticated();
       const token = window.localStorage.getItem("refreshToken");
       const url = `${process.env.REACT_APP_API_SERVICE_URL}/deliveries`;
@@ -45,41 +46,13 @@ class Order extends Component {
           this.props.createMessage("danger", "Error, Try again")
           console.log(err)
         });
-      // field in users associated with the orders
-      // new table of deliveries
-      // order placed time, order end time, order start time, order status, user_id, order_id
-      // order_submit posts to the user_id and updates the array of orders
-      // posts to order placed
-      // const url = `${process.env.REACT_APP_API_SERVICE_URL}/auth/login`;
-      // axios
-      //   .post(url, data)
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.setState({ user_id: res.data.user_id, accessToken: res.data.access_token });
-      //     this.getUsers();
-      //     window.localStorage.setItem("refreshToken", res.data.refresh_token);
-      //     this.createMessage("success", "You have logged in successfully.");
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //     this.createMessage("danger", "Incorrect email and/or password.");
-      //   });
+        
       console.log('submitted')
       this.setState({
         submitted: true
       })
     };
-    nextOrderStep = () => {
-      this.setState({
-        step: this.state.step + 1
-      })
-    }
-    previousOrderStep = () => {
-      this.setState({
-        step: this.state.step - 1
-      })
-    }
-    onLocationUpdate = (e) => {
+    handleLocationUpdate = (e) => {
       this.setState({
         latLng: {
           lat: e.latLng.lat(),
@@ -87,7 +60,7 @@ class Order extends Component {
         }
       })
     }
-    onDateTimeUpdate = (d) => {
+    handleDateTimeUpdate = (d) => {
       this.setState({
         dateTime: d
       })
@@ -99,12 +72,29 @@ class Order extends Component {
         return <Redirect to="/" />
       }
       return (
-        <div>
-          {
-            (this.state.step == 0) ? <OrderLocation handleIncrementStep={this.nextOrderStep} handleLocationUpdate={this.onLocationUpdate} latLng={this.state.latLng} /> : 
-            ((this.state.step == 1) ? <OrderTime handleDecrementStep={this.previousOrderStep} handleIncrementStep={this.nextOrderStep} dateTime={this.state.dateTime} handleDateTimeUpdate={this.onDateTimeUpdate} /> : 
-            <OrderSubmit handleDecrementStep={this.previousOrderStep} latLng={this.state.latLng} dateTime={this.state.dateTime} handleSubmit={this.onOrderSubmit} />)
-          }
+        <div className='columns is-vcentered'>
+          <div className='column is-one-fifth' style={{paddingLeft:40}}>
+            <h3 className='title is-2'>Choose Location:</h3>
+            <hr />
+            <h3 className='title is-2'>Choose Time:</h3>
+            <DateTimePicker onChange={self.handleDateTimeUpdate} value={this.state.dateTime} minDate={new Date()} clearIcon={null} />
+            <hr />
+            <button className="button is-large" onClick={this.handleOrderSubmit}>Submit</button>
+          </div>
+          <div className='column is-offset-1' style={{paddingLeft:59, margin:0}}>
+            <LoadScript googleMapsApiKey={google_maps_api_key}>
+              <div>
+                <GoogleMap
+                  mapContainerStyle={{height: '92vh', width: '100%'}}
+                  center={{lat: 38.0672371465638, lng: -78.7114382450141}}
+                  zoom={15}
+                  onClick={this.handleLocationUpdate}
+                >
+                    <Marker position={this.state.latLng} title="Delivery Location" />
+                </GoogleMap>
+              </div>
+            </LoadScript>
+          </div>
         </div>
       );
     }
