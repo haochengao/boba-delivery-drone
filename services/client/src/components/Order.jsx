@@ -36,6 +36,10 @@ class Order extends Component {
         lat: this.state.latLng.lat,
         lng: this.state.latLng.lng,
       };
+      if (this.state.latLng.lat == null) {
+        this.props.createMessage("danger", "Please Select A Location");
+        return;
+      }
       axios
         .post(url, test)
         .then((res) => {
